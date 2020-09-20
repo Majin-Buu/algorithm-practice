@@ -13,7 +13,10 @@ public class Main {
         // 第二题(冒泡排序)
         System.out.println(Arrays.toString(bubbleSort(new int[]{1, 2, 3, 1, 4, 7})));
         // 第三题(买卖股票的最佳时机 II)
+        // 暴力法
         System.out.println(stockAlgorithm(new int[]{5, 4, 5, 6, 1}));
+        // 谷峰法
+        System.out.println(valleyPeak(new int[]{5, 4, 5, 6, 1}));
     }
 
     /**
@@ -64,7 +67,7 @@ public class Main {
 
     /**
      * 暴力法
-     *
+     * <p>
      * 买卖股票的最佳时机 II
      * 给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
      * 设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。
@@ -107,6 +110,7 @@ public class Main {
                     int profit = array[j] - array[i];
                     // 计算后面能不能再产生利润
                     int afterProfit = stockAlgorithm(array, j + 1);
+                    // 累计利润
                     profit += afterProfit;
                     // 如果这轮循环的利润比上一轮大就进行交换
                     if (profit > maxProfit) {
@@ -116,6 +120,44 @@ public class Main {
             }
             if (maxProfit > max) {
                 max = maxProfit;
+            }
+        }
+
+        return max;
+    }
+
+    /**
+     * 谷峰法
+     */
+    public static int valleyPeak(int[] prices) {
+        if (prices.length < 2) {
+            return 0;
+        }
+        // 声明一个返回参数
+        int max = 0;
+        // 峰底
+        int low = 0;
+        // 峰顶
+        int peak = 0;
+        // 指针
+        int i = 0;
+        // 一次遍历
+        while (i < prices.length - 1) {
+            // 看第一个和第二个形成的是什么谷峰还是谷底
+            while (i < prices.length - 1) {
+                if (prices[i] <= prices[i + 1]) {
+                    // 这样做是为了把后面赋值给谷峰或者谷底，而且后面再循环的时候就是从第二个开始循环方便理解就是1，2，1，2会形成一个谷峰和一个谷底
+                    i++;
+                    // 前面小后面大就把大的赋值给谷峰
+                    peak = prices[i];
+                }
+                if (prices[i] >= prices[i + 1]) {
+                    // 这样做是为了把后面赋值给谷峰或者谷底，而且后面再循环的时候就是从第二个开始循环方便理解就是1，2，1，2会形成一个谷峰和一个谷底
+                    i++;
+                    // 前面小后面大就把大的赋值给谷峰
+                    low = prices[i];
+                }
+                max += peak - low;
             }
         }
 
