@@ -15,8 +15,10 @@ public class Main {
         // 第三题(买卖股票的最佳时机 II)
         // 暴力法
         System.out.println(stockAlgorithm(new int[]{5, 4, 5, 6, 1}));
-        // 谷峰法
+        // 峰值法
         System.out.println(valleyPeak(new int[]{5, 4, 5, 6, 1}));
+        // 简单一次遍历
+        System.out.println(loopOnly(new int[]{5, 4, 5, 6, 1}));
     }
 
     /**
@@ -127,7 +129,7 @@ public class Main {
     }
 
     /**
-     * 谷峰法
+     * 峰值法
      */
     public static int valleyPeak(int[] prices) {
         if (prices.length < 2) {
@@ -135,32 +137,50 @@ public class Main {
         }
         // 声明一个返回参数
         int max = 0;
-        // 峰底
+        // 谷值
         int low = 0;
-        // 峰顶
+        // 峰值
         int peak = 0;
         // 指针
         int i = 0;
         // 一次遍历
         while (i < prices.length - 1) {
-            // 看第一个和第二个形成的是什么谷峰还是谷底
+            // 看第一个和第二个形成的是什么峰值还是谷值
             while (i < prices.length - 1) {
                 if (prices[i] <= prices[i + 1]) {
-                    // 这样做是为了把后面赋值给谷峰或者谷底，而且后面再循环的时候就是从第二个开始循环方便理解就是1，2，1，2会形成一个谷峰和一个谷底
+                    // 这样做是为了把后面赋值给峰值或者谷值，而且后面再循环的时候就是从第二个开始循环方便理解就是1，2，1，2会形成一个峰值和一个谷值
                     i++;
-                    // 前面小后面大就把大的赋值给谷峰
+                    // 前面小后面大就把大的赋值给峰值
                     peak = prices[i];
                 }
                 if (prices[i] >= prices[i + 1]) {
-                    // 这样做是为了把后面赋值给谷峰或者谷底，而且后面再循环的时候就是从第二个开始循环方便理解就是1，2，1，2会形成一个谷峰和一个谷底
+                    // 这样做是为了把后面赋值给峰值或者谷值，而且后面再循环的时候就是从第二个开始循环方便理解就是1，2，1，2会形成一个峰值和一个谷值
                     i++;
-                    // 前面小后面大就把大的赋值给谷峰
+                    // 前面小后面大就把大的赋值给峰值
                     low = prices[i];
                 }
                 max += peak - low;
             }
         }
 
+        return max;
+    }
+
+    /**
+     * 简单的一次循环，通过谷峰法可以看出来我们只取峰值就可以了
+     */
+    public static int loopOnly(int[] prices) {
+        if (prices.length < 2) {
+            return 0;
+        }
+        // 声明一个返回参数
+        int max = 0;
+        // 一次遍历
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i - 1] < prices[i]) {
+                max += prices[i] - prices[i - 1];
+            }
+        }
         return max;
     }
 
