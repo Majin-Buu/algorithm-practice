@@ -16,9 +16,23 @@ public class Main {
         // 暴力法
         System.out.println(stockAlgorithm(new int[]{5, 4, 5, 6, 1}));
         // 峰值法
-        System.out.println(valleyPeak(new int[]{5, 4, 5, 6, 1}));
+        System.out.println(valleyPeak(new int[]{7, 1, 5, 3, 6, 4}));
         // 简单一次遍历
         System.out.println(loopOnly(new int[]{5, 4, 5, 6, 1}));
+        // 旋转数组
+        int[] ints = {1, 2, 3, 4, 5};
+        spinArray(ints, 3);
+        System.out.println(Arrays.toString(ints));
+
+
+        int[] i = new int[]{1, 2};
+        hand(i);
+        System.out.println(Arrays.toString(i));
+
+    }
+
+    private static void hand(int[] i) {
+        i[1] = 3;
     }
 
     /**
@@ -138,29 +152,25 @@ public class Main {
         // 声明一个返回参数
         int max = 0;
         // 谷值
-        int low = 0;
+        int low;
         // 峰值
-        int peak = 0;
+        int peak;
         // 指针
         int i = 0;
         // 一次遍历
         while (i < prices.length - 1) {
             // 看第一个和第二个形成的是什么峰值还是谷值
-            while (i < prices.length - 1) {
-                if (prices[i] <= prices[i + 1]) {
-                    // 这样做是为了把后面赋值给峰值或者谷值，而且后面再循环的时候就是从第二个开始循环方便理解就是1，2，1，2会形成一个峰值和一个谷值
-                    i++;
-                    // 前面小后面大就把大的赋值给峰值
-                    peak = prices[i];
-                }
-                if (prices[i] >= prices[i + 1]) {
-                    // 这样做是为了把后面赋值给峰值或者谷值，而且后面再循环的时候就是从第二个开始循环方便理解就是1，2，1，2会形成一个峰值和一个谷值
-                    i++;
-                    // 前面小后面大就把大的赋值给峰值
-                    low = prices[i];
-                }
-                max += peak - low;
+            while (i < prices.length - 1 && prices[i] >= prices[i + 1]) {
+                // 这样做是为了把后面赋值给峰值或者谷值，而且后面再循环的时候就是从第二个开始循环方便理解就是1，2，1，2会形成一个峰值和一个谷值
+                i++;
             }
+            low = prices[i];
+            while (i < prices.length - 1 && prices[i] <= prices[i + 1]) {
+                // 这样做是为了把后面赋值给峰值或者谷值，而且后面再循环的时候就是从第二个开始循环方便理解就是1，2，1，2会形成一个峰值和一个谷值
+                i++;
+            }
+            peak = prices[i];
+            max += peak - low;
         }
 
         return max;
@@ -182,6 +192,39 @@ public class Main {
             }
         }
         return max;
+    }
+
+    /**
+     * 旋转数组
+     * 给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。
+     * 示例 1:
+     * 输入: [1,2,3,4,5,6,7] 和 k = 3
+     * 输出: [5,6,7,1,2,3,4]
+     * 解释:
+     * 向右旋转 1 步: [7,1,2,3,4,5,6]
+     * 向右旋转 2 步: [6,7,1,2,3,4,5]
+     * 向右旋转 3 步: [5,6,7,1,2,3,4]
+     * 示例 2:
+     * 输入: [-1,-100,3,99] 和 k = 2
+     * 输出: [3,99,-1,-100]
+     * 解释:
+     * 向右旋转 1 步: [99,-1,-100,3]
+     * 向右旋转 2 步: [3,99,-1,-100]
+     */
+    public static void spinArray(int[] nums, int k) {
+        if (nums.length == 0) {
+            return;
+        }
+        int num, middle;
+        for (int i = 0; i < k; i++) {
+            middle = nums[nums.length - 1];
+            for (int j = 0; j < nums.length; j++) {
+                num = nums[j];
+                nums[j] = middle;
+                middle = num;
+            }
+        }
+
     }
 
 }
