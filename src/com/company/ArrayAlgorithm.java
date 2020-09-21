@@ -5,11 +5,13 @@ import java.util.Arrays;
 /**
  * @author MaJin_Buu
  */
-public class Main {
+public class ArrayAlgorithm {
 
     public static void main(String[] args) {
+        int[] ints = new int[]{1, 2, 3, 4, 5};
         // 第一题(删除排序数组中的重复项)
-        System.out.println(arrayDeduplication(new int[]{1, 2}));
+        System.out.println("删除排序数组中的重复项: " + arrayDeduplication(ints));
+        System.out.println("删除排序数组中的重复项: " + Arrays.toString(ints));
         // 第二题(冒泡排序)
         System.out.println(Arrays.toString(bubbleSort(new int[]{1, 2, 3, 1, 4, 7})));
         // 第三题(买卖股票的最佳时机 II)
@@ -19,11 +21,14 @@ public class Main {
         System.out.println(valleyPeak(new int[]{7, 1, 5, 3, 6, 4}));
         // 简单一次遍历
         System.out.println(loopOnly(new int[]{5, 4, 5, 6, 1}));
-        // 旋转数组
-        int[] ints = {1, 2, 3, 4, 5};
+        // 旋转数组(暴力遍历)
+        ints = new int[]{1, 2, 3, 4, 5};
         spinArray(ints, 3);
         System.out.println(Arrays.toString(ints));
-
+        // 旋转数组(开辟新空间)
+        ints = new int[]{1, 2, 3, 4, 5};
+        openArray(ints, 3);
+        System.out.println("旋转数组(开辟新空间): " + Arrays.toString(ints));
 
         int[] i = new int[]{1, 2};
         hand(i);
@@ -224,6 +229,24 @@ public class Main {
                 middle = num;
             }
         }
+
+    }
+
+    /**
+     * 开辟新空间
+     */
+    public static void openArray(int[] nums, int k) {
+        if (nums.length == 0) {
+            return;
+        }
+        int[] open = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            open[(i + k) % nums.length] = nums[i];
+        }
+        for (int i = 0; i < open.length; i++) {
+            nums[i] = open[i];
+        }
+
 
     }
 
