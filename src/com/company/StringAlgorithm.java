@@ -9,6 +9,7 @@ public class StringAlgorithm {
         char[] str = new char[]{'s', 'b', 'g', 't'};
         reverseString(str);
         System.out.println(str);
+
     }
 
     public static void reverseString(char[] s) {
