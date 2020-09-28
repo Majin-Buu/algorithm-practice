@@ -37,6 +37,9 @@ public class ArrayAlgorithm {
         System.out.println(Arrays.toString(intersect(new int[]{1, 2, 3}, new int[]{1, 2, 3})));
         // 数组末尾加一，并且将位数大的往前放
         System.out.println(Arrays.toString(plusOne(new int[]{9, 9, 9})));
+        int[] moveZeroes = {1, 2, 3, 0, 5};
+        moveZeroesSec(moveZeroes);
+        System.out.println(Arrays.toString(moveZeroes));
 
     }
 
@@ -331,6 +334,58 @@ public class ArrayAlgorithm {
         digits = new int[digits.length + 1];
         digits[0] = 1;
         return digits;
+    }
+
+    /**
+     * 给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+     * 示例:
+     * 输入: [0,1,0,3,12]
+     * 输出: [1,3,12,0,0]
+     * 说明:
+     * 必须在原数组上操作，不能拷贝额外的数组。
+     * 尽量减少操作次数。
+     */
+    // TODO 纪念一下自己解出来的 虽然写法很垃圾
+    public static void moveZeroes(int[] nums) {
+        // 思路  先循环遇到0就把0往后的元素往前移动
+        int count = 0;
+        for (int i = 0; i < nums.length; i++) {
+            count++;
+            if (nums[i] == 0) {
+                int num, middle;
+                middle = nums[i];
+                for (int j = nums.length - 1; j >= i; j--) {
+                    num = nums[j];
+                    nums[j] = middle;
+                    middle = num;
+                }
+                i--;
+            }
+            if (count == nums.length) {
+                return;
+            }
+        }
+    }
+
+    /**
+     * @param nums 知识点j++ 和 ++j 的区别（回来想着看）
+     */
+    public static void moveZeroesSec(int[] nums) {
+        if (nums == null) {
+            return;
+        }
+        //第一次遍历的时候，j指针记录非0的个数，只要是非0的统统都赋给nums[j]
+        int j = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            if (nums[i] != 0) {
+                nums[j++] = nums[i];
+            }
+        }
+        //非0元素统计完了，剩下的都是0了
+        //所以第二次遍历把末尾的元素都赋为0即可
+        for (int i = j; i < nums.length; ++i) {
+            nums[i] = 0;
+        }
     }
 
 }
