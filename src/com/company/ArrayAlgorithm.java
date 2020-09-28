@@ -40,6 +40,7 @@ public class ArrayAlgorithm {
         int[] moveZeroes = {1, 2, 3, 0, 5};
         moveZeroesSec(moveZeroes);
         System.out.println(Arrays.toString(moveZeroes));
+        System.out.println(Arrays.toString(twoSum(new int[]{1, 2, 3, 4, 5, 6, 7, 9}, 10)));
 
     }
 
@@ -386,6 +387,39 @@ public class ArrayAlgorithm {
         for (int i = j; i < nums.length; ++i) {
             nums[i] = 0;
         }
+    }
+
+    /**
+     * 给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
+     * 你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。
+     * 示例:
+     * 给定 nums = [2, 7, 11, 15], target = 9
+     * 因为 nums[0] + nums[1] = 2 + 7 = 9
+     * 所以返回 [0, 1]
+     */
+    // TODO myself
+    public static int[] twoSum(int[] nums, int target) {
+        // 返回值
+        Set<Integer> set = new HashSet<>();
+        // 双指针
+        // 慢指针
+        int index = 0;
+        while (index < nums.length) {
+            // 快指针
+            for (int i = index + 1; i < nums.length; i++) {
+                if (nums[index] + nums[i] == target) {
+                    if (set.contains(index) || set.contains(i)) {
+                        continue;
+                    }
+                    set.add(index);
+                    set.add(i);
+                    index++;
+                    i = index;
+                }
+            }
+            index++;
+        }
+        return set.stream().mapToInt(Integer::valueOf).toArray();
     }
 
 }
